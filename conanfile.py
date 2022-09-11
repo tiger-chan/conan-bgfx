@@ -68,11 +68,12 @@ class BgfxConan(ConanFile):
         self.copy("*.dll", dst="bin", keep_path=False)
         self.copy("*.exe", dst="bin", keep_path=False)
         self.copy("shaderc", dst="bin")
+        if self.options.build_tools:
+            self.copy("*.sh", dst="src", src="bgfx/src", keep_path=False)
 
     def package_info(self):
         self.cpp_info.libs = ["bgfx", "bimg", "bx"]
         self.cpp_info.libs.extend(["astc-codec", "astc", "edtaa3", "etc1", "etc2", "iqa", "squish", "pvrtc", "tinyexr"])
-		
         if self.settings.os != "Switch":
             self.cpp_info.libs.extend(["nvtt"])
         if self.settings.os == "Macos":

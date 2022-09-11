@@ -6,6 +6,16 @@ from conans import ConanFile, CMake, tools
 class BgfxTestConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
+    options         = {
+        "shared": [True, False],
+        "multithreaded": [True, False],
+        "build_tools": [True, False]
+    }
+    default_options = {
+        "shared": False,
+        "multithreaded": True,
+        "build_tools": False
+    }
 
     def build(self):
         cmake = CMake(self)
@@ -26,3 +36,6 @@ class BgfxTestConan(ConanFile):
                 self.run(".%sbgfx_test.exe" % os.sep)
             else:
                 self.run(".%sbgfx_test" % os.sep)
+
+    def configure(self):
+        self.options["bgfx"].build_tools = True
